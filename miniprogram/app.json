@@ -1,0 +1,46 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/config/index",
+    "pages/guide/index"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "BaiyunKeys",
+    "navigationBarBackgroundColor": "#ffffff",
+    "backgroundColor": "#f1f5f9"
+  },
+  "tabBar": {
+    "color": "#6b7280",
+    "selectedColor": "#2563eb",
+    "borderStyle": "white",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/house.png",
+        "selectedIconPath": "images/house1.png"
+      },
+      {
+        "pagePath": "pages/config/index",
+        "text": "配置",
+        "iconPath": "images/Icon1.png",
+        "selectedIconPath": "images/Icon2.png"
+      },
+      {
+        "pagePath": "pages/guide/index",
+        "text": "帮助",
+        "iconPath": "images/Icon3.png",
+        "selectedIconPath": "images/Icon4.png"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于蓝牙门禁扫描，需获取当前位置以查找附近门锁"
+    }
+  },
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents"
+}

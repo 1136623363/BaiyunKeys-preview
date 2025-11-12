@@ -1,0 +1,190 @@
+<view class="page">
+  <view class="card">
+    <view class="card-title center">免责声明</view>
+    <view class="card-list">
+      <view class="list-item dot">本程序没有任何云端和后门，所有门禁参数仅保存在本机，可随时通过微信缓存清理移除。</view>
+      <view class="list-item dot">本程序仅调用平安回家官方接口，不修改或绕过官方鉴权，不会在微信缓存中保存个人身份信息。</view>
+      <view class="list-item dot">本程序永久完全免费，仅供学习交流使用，禁止用于其他任何商业或非法用途。</view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">使用前准备</view>
+    <view class="card-body">
+      <view class="step-list">
+        <view class="step-item">
+          <view class="step-index">1</view>
+          <view class="step-content">
+            <view class="step-label">认识关键字段</view>
+            <view class="step-desc multi">
+              <text>门禁 MAC → <text class="code">MAC_NUM</text></text>
+              <text>门禁 Key → <text class="code">PRODUCT_KEY</text></text>
+              <text>蓝牙名称 → <text class="code">bluetoothName</text>（iOS 必填，安卓可忽略但建议保留）</text>
+            </view>
+          </view>
+        </view>
+        <view class="step-item">
+          <view class="step-index">2</view>
+          <view class="step-content">
+            <view class="step-label">选择获取配置的方式</view>
+            <view class="step-desc">从下面三种方式中任选其一，仅需完成其中一条路径即可初始化门禁。</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="card collapsible">
+    <view class="card-header" catchtap="onToggleAuto">
+      <view class="card-title">方式一：自动获取配置（推荐）</view>
+      <view class="chevron {{autoExpanded ? 'expanded' : ''}}"></view>
+    </view>
+    <view class="card-body" wx:if="{{autoExpanded}}">
+      <view class="step-list">
+      <view class="step-item">
+        <view class="step-index">1</view>
+        <view class="step-content">
+            <view class="step-label">退出原应用</view>
+            <view class="step-desc">先在“平安回家” App 或小程序退出账号，确保不会因登录状态冲突而导致获取配置失败。</view>
+        </view>
+      </view>
+      <view class="step-item">
+        <view class="step-index">2</view>
+        <view class="step-content">
+          <view class="step-label">填写信息</view>
+          <view class="step-desc">在「配置」页的自动获取卡片填写手机号与绑定的身份证号（信息仅用于调用官方接口）。</view>
+        </view>
+      </view>
+      <view class="step-item">
+        <view class="step-index">3</view>
+        <view class="step-content">
+            <view class="step-label">获取并备份</view>
+            <view class="step-desc">点击「获取配置」等待接口返回。成功会生成新门禁并弹出复制提示，请立即备份；若返回数据为空，请核对实名信息后稍后重试。</view>
+        </view>
+      </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="card collapsible">
+    <view class="card-header" catchtap="onToggleManual">
+      <view class="card-title">方式二：从.db文件获取配置</view>
+      <view class="chevron {{manualExpanded ? 'expanded' : ''}}"></view>
+    </view>
+    <view class="card-body" wx:if="{{manualExpanded}}">
+      <view class="step-list">
+      <view class="step-item">
+        <view class="step-index">1</view>
+        <view class="step-content">
+          <view class="step-label">导出.db文件</view>
+          <view class="step-desc">在可提取 App 数据的设备上获取门禁数据库文件：</view>
+          <view class="sub-list">
+            <view class="bullet">Root 设备：前往 <text class="code">/data/data/com.huacheng.baiyunuser/databases/</text> 导出 `(32位hash).db`。</view>
+            <view class="bullet">无 Root（MIUI 示例）：通过「设置 → 我的设备 → 备份与恢复」备份，仅勾选“平安回家”，随后在 <text class="code">/sdcard/MIUI/backup/AllBackup/备份时间/</text> 中解压 `com.huacheng.baiyunuser.bak` 提取数据库。</view>
+          </view>
+        </view>
+      </view>
+      <view class="step-item">
+        <view class="step-index">2</view>
+        <view class="step-content">
+            <view class="step-label">查看关键字段</view>
+            <view class="step-desc">使用 SQLite 工具检查 <text class="code">t_device</text> 表，记录下：</view>
+          <view class="sub-list">
+            <view class="bullet"><text class="code">MAC_NUM</text> → 门禁 MAC</view>
+            <view class="bullet"><text class="code">PRODUCT_KEY</text> → 门禁 Key</view>
+            <view class="bullet"><text class="code">bluetoothName</text> → 蓝牙名称（若存在请一并记录）</view>
+          </view>
+        </view>
+      </view>
+      <view class="step-item">
+        <view class="step-index">3</view>
+        <view class="step-content">
+          <view class="step-label">填写并保存</view>
+          <view class="step-desc">打开「配置」页录入门禁名称、门禁MAC、门禁Key（iOS 额外填写蓝牙名称），保存后即可在首页使用。</view>
+        </view>
+      </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="card collapsible">
+    <view class="card-header" catchtap="onToggleCapture">
+      <view class="card-title">方式三：抓包获取配置</view>
+      <view class="chevron {{captureExpanded ? 'expanded' : ''}}"></view>
+    </view>
+    <view class="card-body" wx:if="{{captureExpanded}}">
+      <view class="step-list">
+        <view class="step-item">
+          <view class="step-index">1</view>
+          <view class="step-content">
+            <view class="step-label">开启抓包环境</view>
+            <view class="step-desc">在抓包工具中启用 HTTPS 解密，登录官方 App 或小程序并进入门禁列表，确保请求被记录。</view>
+          </view>
+        </view>
+        <view class="step-item">
+          <view class="step-index">2</view>
+          <view class="step-content">
+            <view class="step-label">定位接口</view>
+            <view class="step-desc">关注请求 <text class="code">https://www.pinganbaiyun.cn/baiyunuser/entranceguard/getList</text>，复制响应中的 <text class="code">macNum</text>、<text class="code">productKey</text> 与 <text class="code">bluetoothName</text>。</view>
+          </view>
+        </view>
+        <view class="step-item">
+          <view class="step-index">3</view>
+          <view class="step-content">
+            <view class="step-label">填写并保存</view>
+            <view class="step-desc">回到「配置」页录入门禁名称、门禁MAC、门禁Key（iOS 额外填写蓝牙名称），确认格式正确后保存即可使用。</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">强烈建议</view>
+    <view class="tip-list">
+      <view class="tip-item">
+        <view class="tip-header">
+          <view class="tip-icon fast">⚡</view>
+          <view class="tip-label">快速开锁</view>
+        </view>
+        <view class="tip-desc">启用「快速开锁」，下次打开小程序会自动尝试连接当前门禁。</view>
+      </view>
+      <view class="tip-item">
+        <view class="tip-header">
+          <view class="tip-icon shortcut">⌂</view>
+          <view class="tip-label">桌面快捷方式</view>
+        </view>
+        <view class="tip-desc">创建桌面快捷方式可缩短启动路径：安卓点击右上「⋯」选择「添加到桌面」，iOS 需跳转浏览器并按提示“添加到主屏幕”。</view>
+      </view>
+      <view class="tip-item">
+        <view class="tip-header">
+          <view class="tip-icon backup">☁</view>
+          <view class="tip-label">定期备份</view>
+        </view>
+        <view class="tip-desc">定期复制并备份门禁参数，防止平安回家官方应用过期后无法再次获取。</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">常见问题</view>
+    <view class="faq-text single">常见问题整理中，发现疑问欢迎通过下方渠道反馈。</view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">提交 Bug / 反馈建议</view>
+    <view class="info-block">
+      <view class="info-paragraph">遇到问题或有优化建议，可通过以下方式联系开发者：</view>
+      <view class="info-contact">
+        <view class="info-label">邮箱</view>
+        <text class="code link" user-select="true" bindtap="onMailTap" data-mail="collin4561@163.com">collin4561@163.com</text>
+      </view>
+      <view class="info-contact">
+        <view class="info-label">Issue</view>
+        <text class="code link" user-select="true" bindtap="onIssueTap" data-url="https://github.com/1136623363/BaiyunKeys-preview/issues">https://github.com/1136623363/BaiyunKeys-preview/issues</text>
+      </view>
+      <view class="info-hint">建议附上关键截图或调试日志，便于快速定位问题。</view>
+    </view>
+  </view>
+
+</view>

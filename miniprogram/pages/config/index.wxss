@@ -1,0 +1,373 @@
+.page {
+  min-height: 100vh;
+  padding: 44rpx 28rpx 60rpx;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, #edf2fb 0%, #f8fafc 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 32rpx;
+}
+
+
+.card {
+  background: #ffffff;
+  border-radius: 26rpx;
+  padding: 40rpx 36rpx;
+  box-shadow: 0 16rpx 36rpx rgba(15, 23, 42, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 28rpx;
+}
+
+.card-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.card.compact {
+  padding: 28rpx 32rpx;
+}
+.selector-header {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 16rpx;
+}
+
+.mini-btn {
+  min-width: 140rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  border-radius: 16rpx;
+  background: #fef3c7;
+  color: #b45309;
+  border: 1rpx solid rgba(180, 83, 9, 0.25);
+  font-size: 26rpx;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mini-btn.danger {
+  background: #fee2e2;
+  color: #b91c1c;
+  border-color: rgba(185, 28, 28, 0.25);
+}
+
+.selector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 26rpx;
+  height: 72rpx;
+  border-radius: 18rpx;
+  border: 2rpx solid #e2e8f0;
+  background: #f8fafc;
+  font-size: 28rpx;
+  color: #1f2937;
+  flex: 1;
+}
+
+.selector-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selector-icon {
+  font-size: 24rpx;
+  color: #94a3b8;
+  margin-left: 16rpx;
+}
+
+.selector-panel {
+  margin-top: 12rpx;
+  background: linear-gradient(180deg, rgba(219, 234, 254, 0.35) 0%, rgba(241, 245, 249, 0.6) 100%);
+  border-radius: 20rpx;
+  border: 2rpx solid rgba(148, 163, 184, 0.25);
+  padding: 18rpx 16rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.selector-item {
+  padding: 20rpx;
+  border-radius: 18rpx;
+  border: 2rpx solid rgba(148, 163, 184, 0.35);
+  font-size: 28rpx;
+  color: #1f2937;
+  background: rgba(255, 255, 255, 0.95);
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.selector-item.add {
+  border-style: dashed;
+  color: #2563eb;
+  background: #eff6ff;
+  font-weight: 600;
+}
+
+.selector-item.active {
+  border-color: #2563eb;
+  background: rgba(37, 99, 235, 0.14);
+  color: #1d4ed8;
+  box-shadow: 0 8rpx 16rpx rgba(37, 99, 235, 0.12);
+}
+
+.selector-item-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24rpx;
+}
+
+.selector-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selector-tag {
+  padding: 6rpx 20rpx;
+  border-radius: 999rpx;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 22rpx;
+}
+
+.selector-add-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 10rpx;
+}
+
+
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 14rpx;
+}
+
+.label {
+  font-size: 26rpx;
+  color: #475569;
+}
+
+.label-inline {
+  display: flex;
+  align-items: baseline;
+  gap: 10rpx;
+}
+
+.label-main {
+  font-size: 26rpx;
+  color: inherit;
+}
+
+.label-note {
+  font-size: 22rpx;
+  color: #94a3b8;
+}
+
+.input {
+  height: 88rpx;
+  padding: 0 26rpx;
+  border-radius: 16rpx;
+  background: #f8fafc;
+  border: 2rpx solid #e2e8f0;
+  font-size: 30rpx;
+  color: #0f172a;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4rpx rgba(37, 99, 235, 0.12);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.primary {
+  height: 96rpx;
+  border-radius: 18rpx;
+  background: linear-gradient(130deg, #2563eb, #3b82f6);
+  color: #ffffff;
+  font-size: 32rpx;
+  font-weight: 600;
+  border: none;
+  box-shadow: 0 12rpx 24rpx rgba(37, 99, 235, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.primary:disabled {
+  background: rgba(148, 163, 184, 0.6);
+  box-shadow: none;
+}
+
+.ghost {
+  height: 88rpx;
+  border-radius: 16rpx;
+  border: 2rpx solid #cbd5f5;
+  color: #2563eb;
+  background: #f8fafc;
+  font-size: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.ghost.small {
+  flex: 1;
+  height: 72rpx;
+  font-size: 28rpx;
+  width: auto;
+  padding: 0 24rpx;
+}
+
+.remote-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.secondary {
+  height: 88rpx;
+  border-radius: 16rpx;
+  background: linear-gradient(130deg, #14b8a6, #0ea5e9);
+  color: #ffffff;
+  font-size: 30rpx;
+  font-weight: 600;
+  border: none;
+  box-shadow: 0 12rpx 24rpx rgba(14, 165, 233, 0.25);
+  padding: 0 40rpx;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.primary.small {
+  flex: 1;
+  height: 72rpx;
+  font-size: 28rpx;
+  width: auto;
+  padding: 0 24rpx;
+}
+
+.info-box {
+  padding: 26rpx;
+  border-radius: 20rpx;
+  background: #eef2ff;
+  border: 2rpx solid rgba(37, 99, 235, 0.18);
+}
+
+.info-text {
+  font-size: 24rpx;
+  color: #475569;
+  line-height: 1.7;
+}
+
+.compact .toggle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.compact .toggle-row + .toggle-row {
+  margin-top: 16rpx;
+  padding-top: 16rpx;
+  border-top: 2rpx dashed rgba(148, 163, 184, 0.4);
+}
+
+.toggle-label {
+  font-size: 28rpx;
+  color: #1f2937;
+  font-weight: 500;
+}
+
+.toggle-note {
+  font-size: 22rpx;
+  color: #94a3b8;
+  margin-top: 6rpx;
+}
+
+.copy-overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  padding: 40rpx;
+  box-sizing: border-box;
+}
+
+.copy-modal {
+  width: 100%;
+  max-width: 620rpx;
+  background: #ffffff;
+  border-radius: 28rpx;
+  padding: 48rpx 36rpx 32rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 32rpx;
+  box-shadow: 0 24rpx 48rpx rgba(15, 23, 42, 0.15);
+}
+
+.copy-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #0f172a;
+  text-align: center;
+}
+
+.copy-content {
+  max-height: 400rpx;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.copy-line {
+  font-size: 28rpx;
+  color: #475569;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.copy-actions {
+  display: flex;
+  gap: 24rpx;
+}
+
+.copy-actions.single {
+  justify-content: center;
+}
+
+.primary.small.full {
+  width: 100%;
+  max-width: 420rpx;
+  padding: 0 48rpx;
+}

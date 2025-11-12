@@ -1,0 +1,112 @@
+<view class="page">
+  <view class="card">
+    <view class="card-title">蓝牙门禁参数</view>
+    <view class="selector-header">
+      <view class="selector" bindtap="toggleConfigSelector">
+        <view class="selector-text">{{form.id ? (configNames.length ? configNames[selectedConfigIndex] : '暂无已保存门禁') : (form.doorName || '未命名门禁')}}</view>
+        <view class="selector-icon">{{selectorOpen ? '▲' : '▼'}}</view>
+      </view>
+      <button class="mini-btn danger" size="mini" bindtap="onDeleteConfig" wx:if="{{form.id}}">删除</button>
+    </view>
+
+    <view class="selector-panel" wx:if="{{selectorOpen}}">
+      <block wx:for="{{configOptions}}" wx:key="id" wx:for-item="option">
+        <view class="selector-item {{option.id === form.id ? 'active' : ''}}" bindtap="onSelectConfig" data-id="{{option.id}}">
+          <view class="selector-item-main">
+            <text class="selector-name">{{option.name}}</text>
+            <text class="selector-tag" wx:if="{{option.id === form.id}}">当前</text>
+          </view>
+        </view>
+      </block>
+      <view class="selector-item add" bindtap="onAddConfig">
+        <text class="selector-add-text">＋ 新增门禁</text>
+      </view>
+    </view>
+
+    <view class="form-grid">
+      <view class="field">
+        <view class="label">门禁名称</view>
+        <input class="input" placeholder="如 默认大门" value="{{form.doorName}}" bindinput="onDoorNameInput" maxlength="30" />
+      </view>
+      <view class="field">
+        <view class="label label-inline">
+          <text class="label-main">门禁 MAC</text>
+          <text class="label-note">(macNum)</text>
+        </view>
+        <input class="input" placeholder="AA:BB:CC:DD:EE:FF" value="{{form.mac}}" bindinput="onMacInput" maxlength="17" />
+      </view>
+      <view class="field">
+        <view class="label label-inline">
+          <text class="label-main">门禁 Key</text>
+          <text class="label-note">(productKey)</text>
+        </view>
+        <input class="input" placeholder="16~32 位十六进制" value="{{form.key}}" bindinput="onKeyInput" maxlength="32" />
+      </view>
+      <view class="field" wx:if="{{isIOS}}">
+        <view class="label label-inline">
+          <text class="label-main">蓝牙名称</text>
+          <text class="label-note">(bluetoothName)</text>
+        </view>
+        <input class="input" placeholder="如 BYXXXX" value="{{form.bluetoothName}}" bindinput="onBluetoothNameInput" maxlength="20" />
+      </view>
+    </view>
+
+    <view class="actions">
+      <button class="primary" type="primary" bindtap="onSave" loading="{{saving}}" disabled="{{!canSave || saving}}">保存配置</button>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">自动获取配置</view>
+
+    <view class="form-grid">
+      <view class="field">
+        <view class="label">手机号</view>
+        <input class="input" type="number" placeholder="请输入绑定手机号" value="{{loginForm.phone}}" bindinput="onPhoneInput" maxlength="11" />
+      </view>
+      <view class="field">
+        <view class="label">身份证号</view>
+        <input class="input" type="idcard" placeholder="请输入身份证号码" value="{{loginForm.idcardNo}}" bindinput="onIdcardInput" maxlength="18" />
+      </view>
+    </view>
+
+    <view class="remote-actions">
+      <button class="secondary" bindtap="onFetchRemoteConfig" loading="{{fetchingRemote}}" disabled="{{fetchingRemote}}">获取配置</button>
+    </view>
+
+    <view class="info-box">
+      <text class="info-text" user-select="true">1.本功能仅调用平安回家官方接口获取数据，不含任何后门，也不会将个人身份信息保存在本地；\n2.门禁参数仅保存在本机，建议成功获取后立即复制备份，避免平安回家APP过期后无法再次获取；\n3.本功能会为你自动新建并保存一份门禁配置。</text>
+    </view>
+  </view>
+
+  <view class="card compact">
+    <view class="toggle-row">
+      <view class="toggle-label">
+        <view>快速开锁</view>
+        <view class="toggle-note">下次打开小程序时自动尝试一次开锁</view>
+      </view>
+      <switch checked="{{quickUnlockEnabled}}" bindchange="onQuickUnlockToggle" color="#f97316" />
+    </view>
+    <view class="toggle-row">
+      <view class="toggle-label">
+        <view>调试日志输出</view>
+        <view class="toggle-note">开启后将在首页显示实时蓝牙日志</view>
+      </view>
+      <switch checked="{{logEnabled}}" bindchange="onLogToggle" color="#60a5fa" />
+    </view>
+  </view>
+
+  <view class="copy-overlay" wx:if="{{copyPrompt.visible}}">
+    <view class="copy-modal">
+      <view class="copy-title">请妥善保存</view>
+      <view class="copy-content">
+        <block wx:for="{{copyPrompt.lines}}" wx:key="*this">
+          <view class="copy-line">{{item}}</view>
+        </block>
+      </view>
+      <view class="copy-actions single">
+        <button class="primary small full" bindtap="onCopyConfirm">一键复制</button>
+      </view>
+    </view>
+  </view>
+</view>

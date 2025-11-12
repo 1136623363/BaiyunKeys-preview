@@ -1,0 +1,80 @@
+<view class="page">
+  <view class="content">
+    <view class="device-card">
+      <view class="card-title">蓝牙门禁</view>
+      <view class="selector-row">
+        <view class="device-selector" bindtap="toggleConfigSelector">
+          <view class="selector-label">{{configNames.length ? configNames[selectedConfigIndex] : (form.doorName || '未命名门禁')}}</view>
+          <view class="selector-icon">{{selectorOpen ? '▲' : '▼'}}</view>
+        </view>
+        <view class="device-badge">BLE</view>
+      </view>
+
+      <view class="selector-panel" wx:if="{{selectorOpen}}">
+        <block wx:for="{{configOptions}}" wx:key="id" wx:for-item="option">
+          <view class="selector-item {{option.id === form.id ? 'active' : ''}}" bindtap="onSelectConfig" data-id="{{option.id}}">
+            <text>{{option.name}}</text>
+          </view>
+        </block>
+      </view>
+
+      <view class="info-list">
+        <view class="info-item">
+          <view class="info-label">门禁 MAC</view>
+          <view class="info-value">{{form.mac || '未填写'}}</view>
+        </view>
+        <view class="info-item">
+          <view class="info-label">门禁 Key</view>
+          <view class="info-value">{{form.key || '未填写'}}</view>
+        </view>
+        <view class="info-item" wx:if="{{isIOS}}">
+          <view class="info-label">蓝牙名称</view>
+          <view class="info-value">{{form.bluetoothName || '未填写'}}</view>
+        </view>
+      </view>
+
+      <button class="unlock" type="primary" bindtap="onSubmit" loading="{{state.loading}}" disabled="{{!canSubmit || state.loading}}">
+        {{ state.loading ? '执行中...' : '立即开锁' }}
+      </button>
+    </view>
+
+    <view class="message-banner" wx:if="{{!consoleSync && state.message}}">
+      <view class="message-text">{{state.message}}</view>
+    </view>
+
+    <view class="panel" wx:if="{{consoleSync}}">
+      <view class="panel-heading">
+        <view class="panel-title">实时日志</view>
+        <view class="panel-status" wx:if="{{state.message}}">{{state.message}}</view>
+      </view>
+      <scroll-view class="log-list" scroll-y="true">
+        <block wx:if="{{logs.length}}">
+          <block wx:for="{{logs}}" wx:key="*this">
+            <text class="log-line" user-select="text">{{item}}</text>
+          </block>
+        </block>
+        <view class="log-empty" wx:else>暂无日志，点击「立即开锁」开始调试</view>
+      </scroll-view>
+      <view class="log-actions" wx:if="{{logs.length}}">
+        <button class="clear-btn" size="mini" bindtap="onClearLogs">清空日志</button>
+        <button class="copy-btn" size="mini" bindtap="onCopyLogs">复制日志</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="disclaimer-overlay" wx:if="{{disclaimerVisible}}" catchtouchmove="true" catchtap="noop">
+    <view class="disclaimer-modal">
+      <view class="disclaimer-title">首次使用须知</view>
+      <view class="disclaimer-content">
+        <view class="disclaimer-item">本程序没有任何云端和后门，所有门禁参数仅保存在本机，可随时通过微信缓存清理移除。</view>
+        <view class="disclaimer-item">本程序仅调用平安回家官方接口，不修改或绕过官方鉴权，不会在微信缓存中保存个人身份信息。</view>
+        <view class="disclaimer-item">本程序永久完全免费，仅供学习交流使用，禁止用于其他任何商业或非法用途。</view>
+        <view class="disclaimer-item">继续使用即视为已知悉并同意自行承担相关使用风险。</view>
+      </view>
+      <view class="disclaimer-note">开始前请先进入「帮助」页完整阅读使用说明，确认了解配置流程与注意事项。</view>
+      <button class="disclaimer-btn" type="primary" disabled="{{disclaimerCountdown > 0}}" bindtap="onDisclaimerConfirm">
+        {{disclaimerCountdown > 0 ? ('请先阅读（' + disclaimerCountdown + 's）') : '我已知悉'}}
+      </button>
+    </view>
+  </view>
+</view>
